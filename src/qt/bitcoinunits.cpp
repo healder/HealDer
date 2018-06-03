@@ -41,9 +41,9 @@ QString BitcoinUnits::name(int unit)
 {
     switch(unit)
     {
-    case BTC: return QString("HLDC");
-    case mBTC: return QString("mHLDC");
-    case uBTC: return QString::fromUtf8("μHLDC");
+    case BTC: return QString("HLDR");
+    case mBTC: return QString("mHLDR");
+    case uBTC: return QString::fromUtf8("μHLDR");
     default: return QString("???");
     }
 }
@@ -52,9 +52,9 @@ QString BitcoinUnits::description(int unit)
 {
     switch(unit)
     {
-    case BTC: return QString("HeldCoins");
-    case mBTC: return QString("Milli-HeldCoins (1 / 1,000)");
-    case uBTC: return QString("Micro-HeldCoins (1 / 1,000,000)");
+    case BTC: return QString("HealDers");
+    case mBTC: return QString("Milli-HealDers (1 / 1,000)");
+    case uBTC: return QString("Micro-HealDers (1 / 1,000,000)");
     default: return QString("???");
     }
 }
