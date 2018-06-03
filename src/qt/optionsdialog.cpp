@@ -143,7 +143,7 @@ void OptionsDialog::setMapper()
 
     /* Darksend Rounds */
     mapper->addMapping(ui->darksendRounds, OptionsModel::DarksendRounds);
-    mapper->addMapping(ui->anonymizeHealDer, OptionsModel::AnonymizeHealDerAmount);
+   // mapper->addMapping(ui->anonymizeHealDer, OptionsModel::AnonymizeHealDerAmount);
 }
 
 void OptionsDialog::enableApplyButton()
