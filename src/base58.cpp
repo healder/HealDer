@@ -226,11 +226,11 @@ int CBase58Data::CompareTo(const CBase58Data& b58) const {
 }
 
 namespace {
-    class CHeldCoinAddressVisitor : public boost::static_visitor<bool> {
+    class CHealDerAddressVisitor : public boost::static_visitor<bool> {
     private:
-        CHeldCoinAddress *addr;
+        CHealDerAddress *addr;
     public:
-        CHeldCoinAddressVisitor(CHeldCoinAddress *addrIn) : addr(addrIn) { }
+        CHealDerAddressVisitor(CHealDerAddress *addrIn) : addr(addrIn) { }
 
         bool operator()(const CKeyID &id) const { return addr->Set(id); }
         bool operator()(const CScriptID &id) const { return addr->Set(id); }
@@ -250,28 +250,28 @@ namespace {
     };
 };
 
-bool CHeldCoinAddress::Set(const CKeyID &id) {
+bool CHealDerAddress::Set(const CKeyID &id) {
     SetData(Params().Base58Prefix(CChainParams::PUBKEY_ADDRESS), &id, 20);
     return true;
 }
 
-bool CHeldCoinAddress::Set(const CScriptID &id) {
+bool CHealDerAddress::Set(const CScriptID &id) {
     SetData(Params().Base58Prefix(CChainParams::SCRIPT_ADDRESS), &id, 20);
     return true;
 }
 
-bool CHeldCoinAddress::Set(const CTxDestination &dest) {
-    return boost::apply_visitor(CHeldCoinAddressVisitor(this), dest);
+bool CHealDerAddress::Set(const CTxDestination &dest) {
+    return boost::apply_visitor(CHealDerAddressVisitor(this), dest);
 }
 
-bool CHeldCoinAddress::IsValid() const {
+bool CHealDerAddress::IsValid() const {
     bool fCorrectSize = vchData.size() == 20;
     bool fKnownVersion = vchVersion == Params().Base58Prefix(CChainParams::PUBKEY_ADDRESS) ||
                          vchVersion == Params().Base58Prefix(CChainParams::SCRIPT_ADDRESS);
     return fCorrectSize && fKnownVersion;
 }
 
-CTxDestination CHeldCoinAddress::Get() const {
+CTxDestination CHealDerAddress::Get() const {
     if (!IsValid())
         return CNoDestination();
     uint160 id;
@@ -284,7 +284,7 @@ CTxDestination CHeldCoinAddress::Get() const {
         return CNoDestination();
 }
 
-bool CHeldCoinAddress::GetKeyID(CKeyID &keyID) const {
+bool CHealDerAddress::GetKeyID(CKeyID &keyID) const {
     if (!IsValid() || vchVersion != Params().Base58Prefix(CChainParams::PUBKEY_ADDRESS))
         return false;
     uint160 id;
@@ -293,34 +293,34 @@ bool CHeldCoinAddress::GetKeyID(CKeyID &keyID) const {
     return true;
 }
 
-bool CHeldCoinAddress::IsScript() const {
+bool CHealDerAddress::IsScript() const {
     return IsValid() && vchVersion == Params().Base58Prefix(CChainParams::SCRIPT_ADDRESS);
 }
 
-void CHeldCoinSecret::SetKey(const CKey& vchSecret) {
+void CHealDerSecret::SetKey(const CKey& vchSecret) {
     assert(vchSecret.IsValid());
     SetData(Params().Base58Prefix(CChainParams::SECRET_KEY), vchSecret.begin(), vchSecret.size());
     if (vchSecret.IsCompressed())
         vchData.push_back(1);
 }
 
-CKey CHeldCoinSecret::GetKey() {
+CKey CHealDerSecret::GetKey() {
     CKey ret;
     ret.Set(&vchData[0], &vchData[32], vchData.size() > 32 && vchData[32] == 1);
     return ret;
 }
 
-bool CHeldCoinSecret::IsValid() const {
+bool CHealDerSecret::IsValid() const {
     bool fExpectedFormat = vchData.size() == 32 || (vchData.size() == 33 && vchData[32] == 1);
     bool fCorrectVersion = vchVersion == Params().Base58Prefix(CChainParams::SECRET_KEY);
     return fExpectedFormat && fCorrectVersion;
 }
 
-bool CHeldCoinSecret::SetString(const char* pszSecret) {
+bool CHealDerSecret::SetString(const char* pszSecret) {
     return CBase58Data::SetString(pszSecret) && IsValid();
 }
 
-bool CHeldCoinSecret::SetString(const std::string& strSecret) {
+bool CHealDerSecret::SetString(const std::string& strSecret) {
     return SetString(strSecret.c_str());
 }
 
