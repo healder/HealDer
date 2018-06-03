@@ -66,13 +66,13 @@ void OptionsModel::Init()
     if (!settings.contains("nDarksendRounds"))
         settings.setValue("nDarksendRounds", 2);
     nDarksendRounds = settings.value("nDarksendRounds").toLongLong();
-    if (!settings.contains("nAnonymizeHeldCoinAmount"))
-        settings.setValue("nAnonymizeHeldCoinAmount", 1000);
-    nAnonymizeHeldCoinAmount = settings.value("nAnonymizeHeldCoinAmount").toLongLong();
+    if (!settings.contains("nAnonymizeHealDerAmount"))
+        settings.setValue("nAnonymizeHealDerAmount", 1000);
+    nAnonymizeHealDerAmount = settings.value("nAnonymizeHealDerAmount").toLongLong();
     if (settings.contains("nDarksendRounds"))
         SoftSetArg("-darksendrounds", settings.value("nDarksendRounds").toString().toStdString());
-    if (settings.contains("nAnonymizeHeldCoinAmount"))
-        SoftSetArg("-anonymizetraveamount", settings.value("nAnonymizeHeldCoinAmount").toString().toStdString());
+    if (settings.contains("nAnonymizeHealDerAmount"))
+        SoftSetArg("-anonymizetraveamount", settings.value("nAnonymizeHealDerAmount").toString().toStdString());
 
 
 
@@ -206,8 +206,8 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
             return fCoinControlFeatures;
         case DarksendRounds:
             return QVariant(nDarksendRounds);
-        case AnonymizeHeldCoinAmount:
-            return QVariant(nAnonymizeHeldCoinAmount);
+        case AnonymizeHealDerAmount:
+            return QVariant(nAnonymizeHealDerAmount);
         case UseBlackTheme:
             return QVariant(fUseBlackTheme);
         default:
@@ -318,10 +318,10 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
             settings.setValue("nDarksendRounds", nDarksendRounds);
             emit darksendRoundsChanged(nDarksendRounds);
             break;
-        case AnonymizeHeldCoinAmount:
-            nAnonymizeHeldCoinAmount = value.toInt();
-            settings.setValue("nAnonymizeHeldCoinAmount", nAnonymizeHeldCoinAmount);
-            emit AnonymizeHeldCoinAmountChanged(nAnonymizeHeldCoinAmount);
+        case AnonymizeHealDerAmount:
+            nAnonymizeHealDerAmount = value.toInt();
+            settings.setValue("nAnonymizeHealDerAmount", nAnonymizeHealDerAmount);
+            emit AnonymizeHealDerAmountChanged(nAnonymizeHealDerAmount);
             break;
         default:
             break;
